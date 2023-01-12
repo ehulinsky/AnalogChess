@@ -100,7 +100,8 @@ class Piece():
         self.direction = False
         self.targeted = False
         self.turn = 0
-
+        self.deleted = False
+        
     def set_letter(self,letter):
         self.letter = letter
         if not self.grabbed:
@@ -152,6 +153,7 @@ class Piece():
             self.grabbed=False
             for piece in pieces:
                 if piece.targeted:
+                    piece.deleted = True
                     piece.x=100
                     piece.start_x=100
             self.direction = False
@@ -373,6 +375,8 @@ class Pawn(Piece):
         self.set_letter("♙")
         
     def draw_moves(self,pieces):
+        
+        
         fake_piece = Pawn(self.start_x,self.start_y,self.color)
         
         end_positions = []
@@ -458,6 +462,9 @@ class Pawn(Piece):
 
     def draw_paths(self,pieces):
 
+        if self.deleted:
+            return
+        
         if self.targeted:
             return
         fake_piece = Pawn(self.start_x,self.start_y,self.color)
@@ -508,7 +515,9 @@ class Rook(Piece):
             self.slide(path[0]*dist/path_len,path[1]*dist/path_len,pieces)
 
     def draw_paths(self,pieces):
-
+        if self.deleted:
+            return
+        
         if self.targeted:
             return
         
@@ -741,6 +750,9 @@ class Knight(Piece):
             '''
             
     def draw_paths(self,pieces):
+        if self.deleted:
+            return
+        
         edge_positions = []
         Radius=math.sqrt(5)
         pieces_in_range_angles = []
@@ -865,6 +877,9 @@ class Bishop(Piece):
     def draw_paths(self,pieces):
         if self.targeted:
             return
+
+        if self.deleted:
+            return
         
         fake_piece = Bishop(self.start_x,self.start_y,self.color)
 
@@ -911,6 +926,8 @@ class Queen(Piece):
     def draw_paths(self,pieces):
 
         if self.targeted:
+            return
+        if self.deleted:
             return
         
         fake_piece = Queen(self.start_x,self.start_y,self.color)
@@ -1063,6 +1080,8 @@ class King(Piece):
 
         if self.targeted:
             return
+        if self.deleted:
+            return
         
         fake_piece = Queen(self.start_x,self.start_y,self.color)
 
@@ -1092,6 +1111,7 @@ def draw_checkers():
 
 
 radius=0.7
+
 pieces = [Rook(0.5,0.5,white),
           Rook(7.5,0.5,white),
           Knight(1.5,0.5,white),
@@ -1126,7 +1146,7 @@ pieces = [Rook(0.5,0.5,white),
           Pawn(5.5,6.5,black),
           Pawn(6.5,6.5,black),
           Pawn(7.5,6.5,black)]
-          
+
 
 done = False
 clock = pygame.time.Clock()
