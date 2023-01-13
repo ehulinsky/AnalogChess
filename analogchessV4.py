@@ -95,7 +95,13 @@ class Piece():
         self.start_y=self.y
         text_scale = 0.85
         self.letter = 'X'
-        self.font = pygame.font.SysFont("segoeuisymbol", int(diameter/8*640*text_scale))
+        
+        font_options = ["segoeuisymbol", "applesymbols"]
+        font_to_use = font_options[0]
+        for font in font_options:
+            if font in pygame.font.get_fonts():
+                font_to_use = font
+        self.font = pygame.font.SysFont(font_to_use, int(diameter/8*640*text_scale))
         self.text = self.font.render(self.letter, True, (255,255,255))
         self.direction = False
         self.targeted = False
