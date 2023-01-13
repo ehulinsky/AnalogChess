@@ -25,15 +25,15 @@ __Knight:__ Moves in a circle of radius sqrt(5), which is the distance it travel
 
   <img src="https://raw.githubusercontent.com/ehulinsky/AnalogChess/main/images/Screenshot%20(145).png" width="200"/>
   
-__Rook:__ Moves any distance orthagonally
+__Rook:__ Moves any distance orthogonally
 
  <img src="https://raw.githubusercontent.com/ehulinsky/AnalogChess/main/images/Screenshot%20(146).png" width="200"/>
  
-__Queen:__ Moves any distance orthagonally or vertically.
+__Queen:__ Moves any distance orthogonally or diagonally.
 
  <img src="https://raw.githubusercontent.com/ehulinsky/AnalogChess/main/images/Screenshot%20(147).png" width="200"/>
  
-__King:__ Moves 0-1 squares orthagonally or 0-sqrt(2) squares diagonally. It is allowed to move into check because this game was way too complicated to code already. You lose if your king dies.
+__King:__ Moves 0-1 squares orthogonally or 0-sqrt(2) squares diagonally. It is allowed to move into check because this game was way too complicated to code already. You lose if your king dies.
 
  <img src="https://raw.githubusercontent.com/ehulinsky/AnalogChess/main/images/Screenshot%20(148).png" width="200"/>
  
