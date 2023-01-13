@@ -77,7 +77,7 @@ def clamp(n, smallest, largest):
     return max(smallest, min(n, largest))
 
 #fucking awful global variable that is is changed by the confirm() function of the pieces
-whites_turn= True
+whites_turn = True
 
 
 class Piece():
@@ -162,6 +162,8 @@ class Piece():
             self.start_x = self.x
             self.start_y = self.y
             self.turn += 1
+            global whites_turn
+            whites_turn = not whites_turn
         
     def ungrab(self,pieces):
         if self.grabbed:
@@ -1166,15 +1168,12 @@ while not done:
             quit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             for piece in pieces:
-                piece.try_grab(to_game_coords(pygame.mouse.get_pos()))
-                '''
                 if whites_turn:
                     if piece.color == white:
                         piece.try_grab(to_game_coords(pygame.mouse.get_pos()))
                 else:
                     if piece.color != white:
                         piece.try_grab(to_game_coords(pygame.mouse.get_pos()))
-                '''
         elif event.type == pygame.MOUSEMOTION:
             for piece in pieces:
                 piece.drag(to_game_coords(pygame.mouse.get_pos()),pieces)
