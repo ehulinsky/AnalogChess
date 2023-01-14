@@ -1,7 +1,7 @@
 import math
 import pygame
 from differentfiles.utils import width, height, dist, to_game_coords
-from differentfiles.drawing import draw_center_text, draw_circle, screen
+from differentfiles.drawing import draw_center_text, draw_circle, screen, get_fontname
 
 
 class Piece:
@@ -20,7 +20,7 @@ class Piece:
         text_scale = 0.85
         self.letter = "X"
         self.font = pygame.font.SysFont(
-            "segoeuisymbol", int(diameter / 8 * 640 * text_scale)
+            get_fontname(), int(diameter / 8 * 640 * text_scale)
         )
         self.text = self.font.render(self.letter, True, (255, 255, 255))
         self.direction = False
