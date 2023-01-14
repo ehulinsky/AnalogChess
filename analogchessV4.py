@@ -96,7 +96,7 @@ class Piece():
         text_scale = 0.85
         self.letter = 'X'
         
-        font_options = ["segoeuisymbol", "applesymbols"]
+        font_options = ["segoeuisymbol", "applesymbols", "DejaVuSans"]
         font_to_use = font_options[0]
         for font in font_options:
             if font in pygame.font.get_fonts():
