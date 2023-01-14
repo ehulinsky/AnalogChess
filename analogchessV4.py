@@ -16,7 +16,7 @@ def getpolygon(origin, radius, N, start=0, end=None):
     x, y = origin
     Nf = float(N)
     if end is None:
-        end = TAU
+        end = math.pi * 2
     for i in range(N):
         xp = x + radius * math.sin(end * i / Nf + start)
         yp = y - radius * math.cos(end * i / Nf + start)
