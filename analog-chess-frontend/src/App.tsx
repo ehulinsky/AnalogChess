@@ -3,7 +3,7 @@ import "./App.css";
 
 import { Stage, Layer, Rect, Text, Circle, Line } from "react-konva";
 import Board from "./components/Board";
-import { StraightOverlay } from "./components/Overlay";
+import { RoundOverlay, StraightOverlay } from "./components/Overlay";
 
 type Piece = {
   type: "pawn" | "rook" | "knight" | "bishop" | "king" | "queen";
@@ -115,6 +115,10 @@ const App = () => {
             start={toScreenPosition({ x: 0.5, y: 6.5 })}
             end={toScreenPosition({ x: 4.5, y: 2.5 })}
             color="red"
+          />
+          <RoundOverlay
+            center={toScreenPosition({ x: 1.5, y: 0.5 })}
+            color="blue"
           />
           {pieces.map((piece) => {
             return (
