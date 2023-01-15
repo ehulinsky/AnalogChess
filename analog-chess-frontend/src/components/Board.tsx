@@ -10,6 +10,7 @@ export default function Board({ height }) {
     for (let j = 0; j < 8; j++) {
       squares.push(
         <Rect
+          key={i + "-" + j}
           x={i * squareSize}
           y={j * squareSize}
           width={squareSize}
