@@ -1,34 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+import { Stage, Layer, Rect, Text, Circle, Line } from "react-konva";
+import Board from "./components/Board";
+
+const App = () => {
+  const [state, setState] = useState({
+    x: 20,
+    y: 200,
+    isDragging: false,
+  });
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR... testing!!!
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Stage width={window.innerWidth * 0.8} height={window.innerHeight}>
+        <Board height={window.innerHeight - 100} />
+        <Layer>
+          <Text text={`Your line is at ${state.x}, ${state.y}`} fontSize={15} />
+          <Rect
+            x={20}
+            y={50}
+            width={100}
+            height={100}
+            fill="red"
+            shadowBlur={10}
+          />
+          <Circle x={200} y={100} radius={50} fill="green" />
+          <Line
+            x={state.x}
+            y={state.y}
+            points={[0, 0, 100, 0, 100, 100]}
+            tension={0.5}
+            closed
+            draggable
+            stroke="black"
+            fillLinearGradientStartPoint={{ x: -50, y: -50 }}
+            fillLinearGradientEndPoint={{ x: 50, y: 50 }}
+            fillLinearGradientColorStops={[0, "red", 1, "yellow"]}
+            onDragStart={() => {
+              setState({
+                ...state,
+                isDragging: true,
+              });
+            }}
+            onDragEnd={(e) => {
+              setState({
+                ...state,
+                isDragging: false,
+                x: e.target.x(),
+                y: e.target.y(),
+              });
+            }}
+          />
+        </Layer>
+      </Stage>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

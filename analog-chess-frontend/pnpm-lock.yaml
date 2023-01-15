@@ -4,14 +4,18 @@ specifiers:
   '@types/react': ^18.0.26
   '@types/react-dom': ^18.0.9
   '@vitejs/plugin-react': ^3.0.0
+  konva: ^8.4.0
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-konva: ^18.2.3
   typescript: ^4.9.3
   vite: ^4.0.0
 
 dependencies:
+  konva: 8.4.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-konva: 18.2.3_bc6dunvwo3nk2akdvqklgchuh4
 
 devDependencies:
   '@types/react': 18.0.26
@@ -487,7 +491,6 @@ packages:
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
-    dev: true
 
   /@types/react-dom/18.0.10:
     resolution: {integrity: sha512-E42GW/JA4Qv15wQdqJq8DL4JhNpB3prJgjgapN3qJT9K2zO5IIAQh4VXvCEDupoqAwnz0cY4RlXeC/ajX5SFHg==}
@@ -495,17 +498,21 @@ packages:
       '@types/react': 18.0.26
     dev: true
 
+  /@types/react-reconciler/0.28.2:
+    resolution: {integrity: sha512-8tu6lHzEgYPlfDf/J6GOQdIc+gs+S2yAqlby3zTsB3SP2svlqTYe5fwZNtZyfactP74ShooP2vvi1BOp9ZemWw==}
+    dependencies:
+      '@types/react': 18.0.26
+    dev: false
+
   /@types/react/18.0.26:
     resolution: {integrity: sha512-hCR3PJQsAIXyxhTNSiDFY//LhnMZWpNNr5etoCqx/iUfGc5gXWtQR2Phl908jVR6uPXacojQWTg4qRpkxTuGug==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
       csstype: 3.1.1
-    dev: true
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
-    dev: true
 
   /@vitejs/plugin-react/3.0.1_vite@4.0.4:
     resolution: {integrity: sha512-mx+QvYwIbbpOIJw+hypjnW1lAbKDHtWK5ibkF/V1/oMBu8HU/chb+SnqJDAsLq1+7rGqjktCEomMTM5KShzUKQ==}
@@ -570,7 +577,6 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
-    dev: true
 
   /debug/4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -668,6 +674,15 @@ packages:
       has: 1.0.3
     dev: true
 
+  /its-fine/1.0.8_react@18.2.0:
+    resolution: {integrity: sha512-MagTA9/J6kN3aEQsQu6by3nyrttCm0whCOYo4SfiNzOfYgcr1cb29mJ3zgluaJboaWOL/lHzJeMXi/QGSCfX1Q==}
+    peerDependencies:
+      react: '>=18.0'
+    dependencies:
+      '@types/react-reconciler': 0.28.2
+      react: 18.2.0
+    dev: false
+
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -682,6 +697,10 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
     dev: true
+
+  /konva/8.4.0:
+    resolution: {integrity: sha512-o38I9j1Gr5CprnBwPI9dCSzb4cvN/8pnjuFHtKrGcNBfKmaLvYfcIakTEDm6xLt17O+S/6nXhLdXa5wqiHHS9Q==}
+    dev: false
 
   /loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
@@ -736,6 +755,32 @@ packages:
 
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
+    peerDependencies:
+      react: ^18.2.0
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.2.0
+      scheduler: 0.23.0
+    dev: false
+
+  /react-konva/18.2.3_bc6dunvwo3nk2akdvqklgchuh4:
+    resolution: {integrity: sha512-OPxjBTgaEGU9pt/VJSVM7QNXYHEZ5CkulX+4fTTvbaH+Wh+vMLbXmH3yjWw4kT/5Qi6t0UQKHPPmirCv8/9sdg==}
+    peerDependencies:
+      konva: ^8.0.1 || ^7.2.5
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+    dependencies:
+      its-fine: 1.0.8_react@18.2.0
+      konva: 8.4.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-reconciler: 0.29.0_react@18.2.0
+      scheduler: 0.23.0
+    dev: false
+
+  /react-reconciler/0.29.0_react@18.2.0:
+    resolution: {integrity: sha512-wa0fGj7Zht1EYMRhKWwoo1H9GApxYLBuhoAuXN0TlltESAjDssB+Apf0T/DngVqaMyPypDmabL37vw/2aRM98Q==}
+    engines: {node: '>=0.10.0'}
     peerDependencies:
       react: ^18.2.0
     dependencies:
