@@ -3,6 +3,7 @@ import "./App.css";
 
 import { Stage, Layer, Rect, Text, Circle, Line } from "react-konva";
 import Board from "./components/Board";
+import { StraightOverlay } from "./components/Overlay";
 
 type Piece = {
   type: "pawn" | "rook" | "knight" | "bishop" | "king" | "queen";
@@ -84,6 +85,13 @@ const App = () => {
     };
   };
 
+  const toScreenPosition = (gamePosition: { x: number; y: number }) => {
+    return {
+      x: gamePosition.x * 100,
+      y: gamePosition.y * 100,
+    };
+  };
+
   // round x to nearest tenth
   const roundX = (x: number) => Math.round(x * 10) / 10;
 
@@ -97,6 +105,16 @@ const App = () => {
               state.x
             }, ${state.y})`}
             fontSize={15}
+          />
+          <StraightOverlay
+            start={toScreenPosition({ x: 0.5, y: 1.5 })}
+            end={toScreenPosition({ x: 2.5, y: 1.5 })}
+            color="green"
+          />
+          <StraightOverlay
+            start={toScreenPosition({ x: 0.5, y: 6.5 })}
+            end={toScreenPosition({ x: 4.5, y: 2.5 })}
+            color="red"
           />
           {pieces.map((piece) => {
             return (
