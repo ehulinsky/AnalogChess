@@ -121,6 +121,7 @@ export function getEdgePosition(
     );
     const newDist = project(line, closestPiece) - distanceToMoveBack;
     if (newDist > Math.sqrt(dx ** 2 + dy ** 2)) return;
+    if (newDist < 0) return { x: location.x, y: location.y }; // should be an error
 
     let result = moveAlongLine(location, line, newDist);
 
