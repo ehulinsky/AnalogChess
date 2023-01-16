@@ -120,7 +120,11 @@ export function getEdgePosition(
       0.7 ** 2 - distanceToLine(line, closestPiece) ** 2
     );
     const newDist = project(line, closestPiece) - distanceToMoveBack;
+    if (newDist > Math.sqrt(dx ** 2 + dy ** 2)) return;
+
     let result = moveAlongLine(location, line, newDist);
+
+    // at this point, it can still be a *little* bit off the board
     return result;
   }
 }
