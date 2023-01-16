@@ -5,7 +5,12 @@ import { Stage, Layer, Rect, Text, Circle, Line } from "react-konva";
 import Board from "./components/Board";
 import { RoundOverlay, StraightOverlay } from "./components/Overlay";
 import { Direction, GamePosition, Piece, ScreenPosition } from "./types";
-import { getEdgePosition, getRescaledDirection } from "./utils";
+import {
+  getEdgePosition,
+  getRescaledDirection,
+  toGamePosition,
+  toScreenPosition,
+} from "./utils";
 
 const initialGameState: Piece[] = [
   { type: "pawn", color: "white", x: 0.5, y: 1.5, id: 0 },
@@ -49,19 +54,6 @@ type AppState = {
   message: string;
 };
 
-const toGamePosition = (screenPosition: ScreenPosition): GamePosition => {
-  return {
-    x: screenPosition.x / 100,
-    y: screenPosition.y / 100,
-  };
-};
-
-const toScreenPosition = (gamePosition: GamePosition): ScreenPosition => {
-  return {
-    x: gamePosition.x * 100,
-    y: gamePosition.y * 100,
-  };
-};
 // compute affordances for current moving piece
 function DirectionOverlays(
   piece: Piece,

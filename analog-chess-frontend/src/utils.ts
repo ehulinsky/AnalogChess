@@ -1,4 +1,4 @@
-import { Direction, GamePosition, Piece } from "./types";
+import { Direction, GamePosition, Piece, ScreenPosition } from "./types";
 
 type Line = {
   x1: number;
@@ -123,4 +123,18 @@ export function getEdgePosition(
     let result = moveAlongLine(location, line, newDist);
     return result;
   }
+}
+
+export function toGamePosition(screenPosition: ScreenPosition): GamePosition {
+  return {
+    x: screenPosition.x / 100,
+    y: screenPosition.y / 100,
+  };
+}
+
+export function toScreenPosition(gamePosition: GamePosition): ScreenPosition {
+  return {
+    x: gamePosition.x * 100,
+    y: gamePosition.y * 100,
+  };
 }
