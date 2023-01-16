@@ -47,7 +47,7 @@ export function RoundOverlay(props: RoundOverlayProps) {
     width = 0.7 * 100;
   }
   if (!startAngle) {
-    startAngle = 0;
+    startAngle = 90;
   }
   if (!endAngle) {
     endAngle = 360;
@@ -59,7 +59,7 @@ export function RoundOverlay(props: RoundOverlayProps) {
       y={center.y}
       innerRadius={radius - width / 2}
       outerRadius={radius + width / 2}
-      rotationDeg={-1 * startAngle}
+      rotation={-1 * startAngle}
       angle={startAngle - endAngle}
       clockwise={true}
       fill={color}

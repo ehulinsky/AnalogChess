@@ -53,6 +53,7 @@ type AppState = {
   y: number;
   piece: Piece | null;
   isDragging: boolean;
+  message: string;
 };
 
 const App = () => {
@@ -61,6 +62,7 @@ const App = () => {
     y: 200,
     piece: null,
     isDragging: false,
+    message: "Welcome to Analog Chess",
   });
 
   const [pieces, setPieces] = useState<Piece[]>(initialGameState);
@@ -95,17 +97,38 @@ const App = () => {
   // round x to nearest tenth
   const roundX = (x: number) => Math.round(x * 10) / 10;
 
+  // compute affordances for current moving piece
+  let overlay;
+  if (state.piece) {
+    if (state.piece.type === "knight") {
+      overlay = (
+        <RoundOverlay center={{ x: state.x, y: state.y }} color="blue" />
+      );
+    } else if (state.piece.type === "bishop") {
+      let { x, y } = toGamePosition({ x: state.x, y: state.y });
+      overlay = (
+        <>
+        <StraightOverlay
+          start={toScreenPosition({ x: x - 3.5, y: y - 3.5 })}
+          end={toScreenPosition({ x: x + 3.5, y: y + 3.5 })}
+          color="green"
+        />
+        <StraightOverlay
+          start={toScreenPosition({ x: x + 3.5, y: y - 3.5 })}
+          end={toScreenPosition({ x: x - 3.5, y: y + 3.5 })}
+          color="green"
+        />
+        </>
+      );
+    }
+  }
+
   return (
     <div className="App">
       <Stage width={window.innerWidth * 0.8} height={window.innerHeight}>
         <Board height={window.innerHeight - 100} />
         <Layer>
-          <Text
-            text={`You dropped the ${state.piece && state.piece.type} at: (${
-              state.x
-            }, ${state.y})`}
-            fontSize={15}
-          />
+          <Text text={state.message} fontSize={15} />
           <StraightOverlay
             start={toScreenPosition({ x: 0.5, y: 1.5 })}
             end={toScreenPosition({ x: 2.5, y: 1.5 })}
@@ -116,10 +139,7 @@ const App = () => {
             end={toScreenPosition({ x: 4.5, y: 2.5 })}
             color="red"
           />
-          <RoundOverlay
-            center={toScreenPosition({ x: 4.5, y: 4.5 })}
-            color="blue"
-          />
+          {overlay}
           {pieces.map((piece) => {
             return (
               <Circle
@@ -133,15 +153,25 @@ const App = () => {
                   setState({
                     ...state,
                     isDragging: true,
+                    piece: piece,
+                  });
+                }}
+                onDragMove={(e) => {
+                  setState({
+                    ...state,
+                    piece: piece,
+                    x: roundX(e.target.x()),
+                    y: roundX(e.target.y()),
                   });
                 }}
                 onDragEnd={(e) => {
                   setState({
                     ...state,
+                    message: `You dropped the ${
+                      state.piece && state.piece.type
+                    } at: (${roundX(e.target.x())}, ${roundX(e.target.y())})`,
                     isDragging: false,
-                    piece,
-                    x: roundX(e.target.x()),
-                    y: roundX(e.target.y()),
+                    piece: null,
                   });
                   movePiece(
                     piece,
