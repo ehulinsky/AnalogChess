@@ -4,14 +4,8 @@ import "./App.css";
 import { Stage, Layer, Rect, Text, Circle, Line } from "react-konva";
 import Board from "./components/Board";
 import { RoundOverlay, StraightOverlay } from "./components/Overlay";
-
-type Piece = {
-  type: "pawn" | "rook" | "knight" | "bishop" | "king" | "queen";
-  color: "white" | "black";
-  x: number;
-  y: number;
-  id: number;
-};
+import { Direction, GamePosition, Piece, ScreenPosition } from "./types";
+import { getEdgePosition, getRescaledDirection } from "./utils";
 
 const initialGameState: Piece[] = [
   { type: "pawn", color: "white", x: 0.5, y: 1.5, id: 0 },
@@ -49,8 +43,7 @@ const initialGameState: Piece[] = [
 ];
 
 type AppState = {
-  x: number;
-  y: number;
+  s: ScreenPosition;
   piece: Piece | null;
   isDragging: boolean;
   message: string;
@@ -58,8 +51,7 @@ type AppState = {
 
 const App = () => {
   const [state, setState] = useState<AppState>({
-    x: 20,
-    y: 200,
+    s: { x: 20, y: 200 },
     piece: null,
     isDragging: false,
     message: "Welcome to Analog Chess",
@@ -80,14 +72,14 @@ const App = () => {
     setPieces(newPieces);
   };
 
-  const toGamePosition = (screenPosition: { x: number; y: number }) => {
+  const toGamePosition = (screenPosition: ScreenPosition): GamePosition => {
     return {
       x: screenPosition.x / 100,
       y: screenPosition.y / 100,
     };
   };
 
-  const toScreenPosition = (gamePosition: { x: number; y: number }) => {
+  const toScreenPosition = (gamePosition: GamePosition): ScreenPosition => {
     return {
       x: gamePosition.x * 100,
       y: gamePosition.y * 100,
@@ -101,23 +93,78 @@ const App = () => {
   let overlay;
   if (state.piece) {
     if (state.piece.type === "knight") {
-      overlay = (
-        <RoundOverlay center={{ x: state.x, y: state.y }} color="blue" />
-      );
-    } else if (state.piece.type === "bishop") {
-      let { x, y } = toGamePosition({ x: state.x, y: state.y });
+      overlay = <RoundOverlay center={state.s} color="blue" />;
+    } else if (state.piece.type === "rook") {
+      let overlays = [];
+
+      // find the first piece that intersects
+      // const directions: Direction[] = [
+      //   { dx: 10, dy: 0, name: "right" },
+      //   { dx: -10, dy: 0, name: "left" },
+      //   { dx: 0, dy: 10, name: "down" },
+      //   { dx: 0, dy: -10, name: "up" },
+      // ];
+      const directions: Direction[] = [
+        { dx: 10, dy: 10, name: "right" },
+        { dx: -10, dy: -10, name: "left" },
+        { dx: -10, dy: 10, name: "down" },
+        { dx: 10, dy: -10, name: "up" },
+      ];
+      for (let direction of directions) {
+        let edgePosition = getEdgePosition(
+          state.piece,
+          toGamePosition(state.s),
+          direction,
+          pieces
+        );
+
+        if (!!edgePosition) {
+          overlays.push(
+            <RoundOverlay
+              center={toScreenPosition(edgePosition)}
+              radius={71}
+              color="blue"
+            />
+          );
+        }
+      }
+
+      // Draw overlays
+      let g = toGamePosition({ x: state.s.x, y: state.s.y });
       overlay = (
         <>
-        <StraightOverlay
-          start={toScreenPosition({ x: x - 3.5, y: y - 3.5 })}
-          end={toScreenPosition({ x: x + 3.5, y: y + 3.5 })}
-          color="green"
-        />
-        <StraightOverlay
-          start={toScreenPosition({ x: x + 3.5, y: y - 3.5 })}
-          end={toScreenPosition({ x: x - 3.5, y: y + 3.5 })}
-          color="green"
-        />
+          {directions
+            .map((direction) => {
+              direction = getRescaledDirection(g, direction);
+
+              return (
+                <StraightOverlay
+                  start={state.s}
+                  end={toScreenPosition({
+                    x: g.x + direction.dx,
+                    y: g.y + direction.dy,
+                  })}
+                  color="green"
+                />
+              );
+            })
+            .concat(overlays)}
+        </>
+      );
+    } else if (state.piece.type === "bishop") {
+      let { x, y } = toGamePosition(state.s);
+      overlay = (
+        <>
+          <StraightOverlay
+            start={toScreenPosition({ x: x - 3.5, y: y - 3.5 })}
+            end={toScreenPosition({ x: x + 3.5, y: y + 3.5 })}
+            color="green"
+          />
+          <StraightOverlay
+            start={toScreenPosition({ x: x + 3.5, y: y - 3.5 })}
+            end={toScreenPosition({ x: x - 3.5, y: y + 3.5 })}
+            color="green"
+          />
         </>
       );
     }
@@ -160,8 +207,10 @@ const App = () => {
                   setState({
                     ...state,
                     piece: piece,
-                    x: roundX(e.target.x()),
-                    y: roundX(e.target.y()),
+                    s: {
+                      x: roundX(e.target.x()),
+                      y: roundX(e.target.y()),
+                    },
                   });
                 }}
                 onDragEnd={(e) => {

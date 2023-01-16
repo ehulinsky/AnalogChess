@@ -1,10 +1,11 @@
 // represents an overlay of where a piece can move
 
 import { Arc, Line } from "react-konva";
+import { ScreenPosition } from "../types";
 
 type StraightOverlayProps = {
-  start: { x: number; y: number };
-  end: { x: number; y: number };
+  start: ScreenPosition;
+  end: ScreenPosition;
   color: string;
   radius?: number;
 };
@@ -29,7 +30,7 @@ export function StraightOverlay(props: StraightOverlayProps) {
 }
 
 type RoundOverlayProps = {
-  center: { x: number; y: number };
+  center: ScreenPosition;
   color: string;
   startAngle?: number;
   endAngle?: number;
@@ -47,7 +48,7 @@ export function RoundOverlay(props: RoundOverlayProps) {
     width = 0.7 * 100;
   }
   if (!startAngle) {
-    startAngle = 90;
+    startAngle = 0;
   }
   if (!endAngle) {
     endAngle = 360;
