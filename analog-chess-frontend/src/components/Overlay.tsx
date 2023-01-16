@@ -31,18 +31,26 @@ export function StraightOverlay(props: StraightOverlayProps) {
 type RoundOverlayProps = {
   center: { x: number; y: number };
   color: string;
+  startAngle?: number;
+  endAngle?: number;
   radius?: number;
   width?: number;
 };
 
 export function RoundOverlay(props: RoundOverlayProps) {
-  let { radius, width } = props;
+  let { radius, width, startAngle, endAngle } = props;
   const { center, color } = props;
   if (!radius) {
     radius = Math.sqrt(5) * 100;
   }
   if (!width) {
     width = 0.7 * 100;
+  }
+  if (!startAngle) {
+    startAngle = 0;
+  }
+  if (!endAngle) {
+    endAngle = 360;
   }
 
   return (
@@ -51,7 +59,9 @@ export function RoundOverlay(props: RoundOverlayProps) {
       y={center.y}
       innerRadius={radius - width / 2}
       outerRadius={radius + width / 2}
-      angle={360}
+      rotationDeg={-1 * startAngle}
+      angle={startAngle - endAngle}
+      clockwise={true}
       fill={color}
       opacity={0.5}
     />

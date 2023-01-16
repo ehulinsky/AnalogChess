@@ -117,7 +117,7 @@ const App = () => {
             color="red"
           />
           <RoundOverlay
-            center={toScreenPosition({ x: 1.5, y: 0.5 })}
+            center={toScreenPosition({ x: 4.5, y: 4.5 })}
             color="blue"
           />
           {pieces.map((piece) => {
