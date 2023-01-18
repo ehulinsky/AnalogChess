@@ -36,6 +36,8 @@ export const initialGameState: Piece[] = [
 ];
 
 export const moves = {
+  knight: [], // placeholder
+  pawn: [], // placeholder
   rook: [
     { dx: 10, dy: 0, name: "right" },
     { dx: -10, dy: 0, name: "left" },

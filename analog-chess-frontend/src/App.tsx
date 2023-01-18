@@ -48,32 +48,14 @@ const App = () => {
   if (state.piece) {
     if (state.piece.type === "knight") {
       overlay = <RoundOverlay center={state.s} color="blue" />;
-    } else if (state.piece.type === "pawn") {
-      let key: "white_pawn" | "black_pawn" = "white_pawn";
-      if (state.piece.color === "black") key = "black_pawn";
-
-      let directions = moves[key];
-      overlay = (
-        <DirectionOverlays
-          piece={state.piece}
-          pieces={pieces}
-          directions={directions}
-        />
-      );
     } else if (
+      state.piece.type === "pawn" ||
       state.piece.type === "rook" ||
       state.piece.type === "bishop" ||
       state.piece.type === "king" ||
       state.piece.type === "queen"
     ) {
-      let directions = moves[state.piece.type];
-      overlay = (
-        <DirectionOverlays
-          piece={state.piece}
-          pieces={pieces}
-          directions={directions}
-        />
-      );
+      overlay = <DirectionOverlays piece={state.piece} pieces={pieces} />;
     }
   }
 

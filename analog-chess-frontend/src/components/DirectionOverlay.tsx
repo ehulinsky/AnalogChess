@@ -1,3 +1,4 @@
+import { moves } from "../data/initialState";
 import { Piece, Direction } from "../types";
 import {
   toScreenPosition,
@@ -7,16 +8,25 @@ import {
 } from "../utils";
 import { StraightOverlay } from "./Overlay";
 
+// returns valid straight moves
+function getMoves(piece: Piece): Direction[] {
+  if (piece.type === "pawn" && piece.color === "black")
+    return moves["black_pawn"];
+  if (piece.type === "pawn" && piece.color === "white")
+    return moves["white_pawn"];
+  return moves[piece.type];
+}
+
 // compute affordances for current moving piece
 export default function DirectionOverlays({
   piece,
   pieces,
-  directions,
 }: {
   piece: Piece;
   pieces: Piece[];
-  directions: Direction[];
 }) {
+  let directions = getMoves(piece);
+
   let overlays = [];
   for (let [i, direction] of directions.entries()) {
     // let's compute the overlay from a static position instead.
@@ -34,7 +44,8 @@ export default function DirectionOverlays({
 
     if (!!edgePosition) {
       overlays.push(
-        <StraightOverlay key={i}
+        <StraightOverlay
+          key={i}
           start={pastPosition}
           end={toScreenPosition(edgePosition)}
           color="rgb(0,255,0)"
@@ -44,7 +55,8 @@ export default function DirectionOverlays({
       let g = toGamePosition(pastPosition);
       direction = getRescaledDirection(g, direction);
       overlays.push(
-        <StraightOverlay key={i}
+        <StraightOverlay
+          key={i}
           start={pastPosition}
           end={toScreenPosition({
             x: g.x + direction.dx,
