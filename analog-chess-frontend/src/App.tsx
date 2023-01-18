@@ -63,9 +63,15 @@ function DirectionOverlays(
 ) {
   let overlays = [];
   for (let direction of directions) {
+    // let's compute the overlay from a static position instead.
+    let pastPosition = toScreenPosition({
+      x: piece.x,
+      y: piece.y,
+    });
+
     let edgePosition = getEdgePosition(
       piece,
-      toGamePosition(currentPosition),
+      toGamePosition(pastPosition),
       direction,
       pieces
     );
@@ -73,17 +79,17 @@ function DirectionOverlays(
     if (!!edgePosition) {
       overlays.push(
         <StraightOverlay
-          start={currentPosition}
+          start={pastPosition}
           end={toScreenPosition(edgePosition)}
           color="rgb(0,255,0)"
         />
       );
     } else {
-      let g = toGamePosition(currentPosition);
+      let g = toGamePosition(pastPosition);
       direction = getRescaledDirection(g, direction);
       overlays.push(
         <StraightOverlay
-          start={currentPosition}
+          start={pastPosition}
           end={toScreenPosition({
             x: g.x + direction.dx,
             y: g.y + direction.dy,
@@ -140,7 +146,9 @@ const App = () => {
     message: "Welcome to Analog Chess",
   });
 
-  const [pieces, setPieces] = useState<Piece[]>(initialGameState);
+  const [pieces, setPieces] = useState<Piece[]>(
+    initialGameState.map((piece) => ({ ...piece, attackable: false }))
+  );
 
   // location is in game coordinates
   const movePiece = (piece: Piece, location: { x: number; y: number }) => {
