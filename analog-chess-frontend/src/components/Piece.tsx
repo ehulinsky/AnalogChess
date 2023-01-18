@@ -11,7 +11,7 @@ type PieceProps = {
 export default function Piece({
   x,
   y,
-  color = "green",
+  color = "rgb(0,255,0)",
   size = 50,
 }: PieceProps) {
   return <Circle x={x} y={y} radius={size} fill={color} />;

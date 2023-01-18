@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 
-import { Stage, Layer, Rect, Text, Circle, Line } from "react-konva";
+import { Stage, Layer, Text, Circle } from "react-konva";
 import Board from "./components/Board";
 import { RoundOverlay, StraightOverlay } from "./components/Overlay";
 import { Direction, GamePosition, Piece, ScreenPosition } from "./types";
@@ -75,7 +75,7 @@ function DirectionOverlays(
         <StraightOverlay
           start={currentPosition}
           end={toScreenPosition(edgePosition)}
-          color="green"
+          color="rgb(0,255,0)"
         />
       );
     } else {
@@ -88,7 +88,7 @@ function DirectionOverlays(
             x: g.x + direction.dx,
             y: g.y + direction.dy,
           })}
-          color="green"
+          color="rgb(0,255,0)"
         />
       );
     }
@@ -197,7 +197,7 @@ const App = () => {
           <StraightOverlay
             start={toScreenPosition({ x: 0.5, y: 1.5 })}
             end={toScreenPosition({ x: 2.5, y: 1.5 })}
-            color="green"
+            color="rgb(0,255,0)"
           />
           <StraightOverlay
             start={toScreenPosition({ x: 0.5, y: 6.5 })}
