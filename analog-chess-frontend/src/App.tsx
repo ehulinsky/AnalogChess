@@ -4,48 +4,10 @@ import "./App.css";
 import { Stage, Layer, Text, Circle } from "react-konva";
 import Board from "./components/Board";
 import { RoundOverlay, StraightOverlay } from "./components/Overlay";
-import { Direction, GamePosition, Piece, ScreenPosition } from "./types";
-import {
-  getEdgePosition,
-  getRescaledDirection,
-  toGamePosition,
-  toScreenPosition,
-} from "./utils";
-
-const initialGameState: Piece[] = [
-  { type: "pawn", color: "white", x: 0.5, y: 1.5, id: 0 },
-  { type: "pawn", color: "white", x: 1.5, y: 1.5, id: 1 },
-  { type: "pawn", color: "white", x: 2.5, y: 1.5, id: 2 },
-  { type: "pawn", color: "white", x: 3.5, y: 1.5, id: 3 },
-  { type: "pawn", color: "white", x: 4.5, y: 1.5, id: 4 },
-  { type: "pawn", color: "white", x: 5.5, y: 1.5, id: 5 },
-  { type: "pawn", color: "white", x: 6.5, y: 1.5, id: 6 },
-  { type: "pawn", color: "white", x: 7.5, y: 1.5, id: 7 },
-  { type: "rook", color: "white", x: 0.5, y: 0.5, id: 8 },
-  { type: "knight", color: "white", x: 1.5, y: 0.5, id: 9 },
-  { type: "bishop", color: "white", x: 2.5, y: 0.5, id: 10 },
-  { type: "king", color: "white", x: 3.5, y: 0.5, id: 11 },
-  { type: "queen", color: "white", x: 4.5, y: 0.5, id: 12 },
-  { type: "bishop", color: "white", x: 5.5, y: 0.5, id: 13 },
-  { type: "knight", color: "white", x: 6.5, y: 0.5, id: 14 },
-  { type: "rook", color: "white", x: 7.5, y: 0.5, id: 15 },
-  { type: "pawn", color: "black", x: 0.5, y: 6.5, id: 16 },
-  { type: "pawn", color: "black", x: 1.5, y: 6.5, id: 17 },
-  { type: "pawn", color: "black", x: 2.5, y: 6.5, id: 18 },
-  { type: "pawn", color: "black", x: 3.5, y: 6.5, id: 19 },
-  { type: "pawn", color: "black", x: 4.5, y: 6.5, id: 20 },
-  { type: "pawn", color: "black", x: 5.5, y: 6.5, id: 21 },
-  { type: "pawn", color: "black", x: 6.5, y: 6.5, id: 22 },
-  { type: "pawn", color: "black", x: 7.5, y: 6.5, id: 23 },
-  { type: "rook", color: "black", x: 0.5, y: 7.5, id: 24 },
-  { type: "knight", color: "black", x: 1.5, y: 7.5, id: 25 },
-  { type: "bishop", color: "black", x: 2.5, y: 7.5, id: 26 },
-  { type: "king", color: "black", x: 3.5, y: 7.5, id: 27 },
-  { type: "queen", color: "black", x: 4.5, y: 7.5, id: 28 },
-  { type: "bishop", color: "black", x: 5.5, y: 7.5, id: 29 },
-  { type: "knight", color: "black", x: 6.5, y: 7.5, id: 30 },
-  { type: "rook", color: "black", x: 7.5, y: 7.5, id: 31 },
-];
+import { Piece, ScreenPosition } from "./types";
+import { toGamePosition, toScreenPosition } from "./utils";
+import { initialGameState, moves } from "./data/initialState";
+import DirectionOverlays from "./components/DirectionOverlay";
 
 type AppState = {
   s: ScreenPosition;
@@ -54,90 +16,6 @@ type AppState = {
   message: string;
 };
 
-// compute affordances for current moving piece
-function DirectionOverlays(
-  piece: Piece,
-  pieces: Piece[],
-  currentPosition: ScreenPosition,
-  directions: Direction[]
-) {
-  let overlays = [];
-  for (let direction of directions) {
-    // let's compute the overlay from a static position instead.
-    let pastPosition = toScreenPosition({
-      x: piece.x,
-      y: piece.y,
-    });
-
-    let edgePosition = getEdgePosition(
-      piece,
-      toGamePosition(pastPosition),
-      direction,
-      pieces
-    );
-
-    if (!!edgePosition) {
-      overlays.push(
-        <StraightOverlay
-          start={pastPosition}
-          end={toScreenPosition(edgePosition)}
-          color="rgb(0,255,0)"
-        />
-      );
-    } else {
-      let g = toGamePosition(pastPosition);
-      direction = getRescaledDirection(g, direction);
-      overlays.push(
-        <StraightOverlay
-          start={pastPosition}
-          end={toScreenPosition({
-            x: g.x + direction.dx,
-            y: g.y + direction.dy,
-          })}
-          color="rgb(0,255,0)"
-        />
-      );
-    }
-  }
-  return overlays;
-}
-
-const moves = {
-  rook: [
-    { dx: 10, dy: 0, name: "right" },
-    { dx: -10, dy: 0, name: "left" },
-    { dx: 0, dy: 10, name: "down" },
-    { dx: 0, dy: -10, name: "up" },
-  ],
-  bishop: [
-    { dx: 10, dy: 10, name: "right" },
-    { dx: -10, dy: -10, name: "left" },
-    { dx: -10, dy: 10, name: "down" },
-    { dx: 10, dy: -10, name: "up" },
-  ],
-  queen: [
-    { dx: 10, dy: 0, name: "right" },
-    { dx: -10, dy: 0, name: "left" },
-    { dx: 0, dy: 10, name: "down" },
-    { dx: 0, dy: -10, name: "up" },
-    { dx: 10, dy: 10, name: "right" },
-    { dx: -10, dy: -10, name: "left" },
-    { dx: -10, dy: 10, name: "down" },
-    { dx: 10, dy: -10, name: "up" },
-  ],
-  king: [
-    { dx: 1, dy: 0, name: "right" },
-    { dx: -1, dy: 0, name: "left" },
-    { dx: 0, dy: 1, name: "down" },
-    { dx: 0, dy: -1, name: "up" },
-    { dx: 1, dy: 1, name: "right" },
-    { dx: -1, dy: -1, name: "left" },
-    { dx: -1, dy: 1, name: "down" },
-    { dx: 1, dy: -1, name: "up" },
-  ],
-  white_pawn: [{ dx: 0, dy: 1, name: "right" }],
-  black_pawn: [{ dx: 0, dy: -1, name: "right" }],
-};
 const App = () => {
   const [state, setState] = useState<AppState>({
     s: { x: 20, y: 200 },
@@ -173,26 +51,29 @@ const App = () => {
     } else if (state.piece.type === "pawn") {
       let key: "white_pawn" | "black_pawn" = "white_pawn";
       if (state.piece.color === "black") key = "black_pawn";
-      let overlays = DirectionOverlays(
-        state.piece,
-        pieces,
-        state.s,
-        moves[key]
+
+      let directions = moves[key];
+      overlay = (
+        <DirectionOverlays
+          piece={state.piece}
+          pieces={pieces}
+          directions={directions}
+        />
       );
-      overlay = <>{overlays}</>;
     } else if (
       state.piece.type === "rook" ||
       state.piece.type === "bishop" ||
       state.piece.type === "king" ||
       state.piece.type === "queen"
     ) {
-      let overlays = DirectionOverlays(
-        state.piece,
-        pieces,
-        state.s,
-        moves[state.piece.type]
+      let directions = moves[state.piece.type];
+      overlay = (
+        <DirectionOverlays
+          piece={state.piece}
+          pieces={pieces}
+          directions={directions}
+        />
       );
-      overlay = <>{overlays}</>;
     }
   }
 

@@ -1,10 +1,4 @@
-import { Direction, GamePosition, Piece, ScreenPosition } from "./types";
-
-type Line = {
-  x1: number;
-  y1: number;
-  angle: number;
-};
+import { Direction, GamePosition, Line, Piece, ScreenPosition } from "./types";
 
 // This function returns a line from a location and a direction.
 function getLine(location: GamePosition, direction: Direction) {

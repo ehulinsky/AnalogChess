@@ -4,6 +4,7 @@ export type Piece = {
   x: number;
   y: number;
   id: number;
+  attackable?: boolean;
 };
 
 export type Direction = {
@@ -20,4 +21,11 @@ export type GamePosition = {
 export type ScreenPosition = {
   x: number;
   y: number;
+};
+
+// Represents a line starting from a point (x1, y1) and going in the direction of angle.
+export type Line = {
+  x1: number;
+  y1: number;
+  angle: number;
 };
