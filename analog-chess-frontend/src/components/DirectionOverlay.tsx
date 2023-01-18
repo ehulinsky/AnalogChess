@@ -8,15 +8,6 @@ import {
 } from "../utils";
 import { StraightOverlay } from "./Overlay";
 
-// returns valid straight moves
-function getMoves(piece: Piece): Direction[] {
-  if (piece.type === "pawn" && piece.color === "black")
-    return moves["black_pawn"];
-  if (piece.type === "pawn" && piece.color === "white")
-    return moves["white_pawn"];
-  return moves[piece.type];
-}
-
 // compute affordances for current moving piece
 export default function DirectionOverlays({
   piece,
@@ -68,4 +59,13 @@ export default function DirectionOverlays({
     }
   }
   return <>{overlays}</>;
+}
+
+// returns valid straight moves
+function getMoves(piece: Piece): Direction[] {
+  if (piece.type === "pawn" && piece.color === "black")
+    return moves["black_pawn"];
+  if (piece.type === "pawn" && piece.color === "white")
+    return moves["white_pawn"];
+  return moves[piece.type];
 }

@@ -6,7 +6,7 @@ import Board from "./components/Board";
 import { RoundOverlay, StraightOverlay } from "./components/Overlay";
 import { Piece, ScreenPosition } from "./types";
 import { toGamePosition, toScreenPosition } from "./utils";
-import { initialGameState, moves } from "./data/initialState";
+import { initialGameState } from "./data/initialState";
 import DirectionOverlays from "./components/DirectionOverlay";
 
 type AppState = {
