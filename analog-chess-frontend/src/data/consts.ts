@@ -70,6 +70,14 @@ export const moves = {
     { dx: -1, dy: 1, name: "down" },
     { dx: 1, dy: -1, name: "up" },
   ],
-  white_pawn: [{ dx: 0, dy: 1, name: "right" }],
-  black_pawn: [{ dx: 0, dy: -1, name: "right" }],
+  white_pawn: [
+    { dx: 0, dy: 1, name: "move" },
+    { dx: 1, dy: 1, name: "attack left" },
+    { dx: -1, dy: 1, name: "attack right" },
+  ],
+  black_pawn: [
+    { dx: 0, dy: -1, name: "move" },
+    { dx: 1, dy: -1, name: "attack left" },
+    { dx: -1, dy: -1, name: "attack right" },
+  ],
 };

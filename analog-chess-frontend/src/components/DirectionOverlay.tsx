@@ -1,4 +1,4 @@
-import { moves } from "../data/initialState";
+import { moves } from "../data/consts";
 import { Piece, Direction } from "../types";
 import {
   toScreenPosition,

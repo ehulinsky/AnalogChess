@@ -25,6 +25,7 @@ export function StraightOverlay(props: StraightOverlayProps) {
       lineCap="round"
       lineJoin="round"
       opacity={0.5}
+      zindex={-1}
     />
   );
 }

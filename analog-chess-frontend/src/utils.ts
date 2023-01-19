@@ -1,5 +1,8 @@
 import { Direction, GamePosition, Line, Piece, ScreenPosition } from "./types";
 
+// round x to nearest tenth
+export const roundX = (x: number) => Math.round(x * 10) / 10;
+
 // This function returns a line from a location and a direction.
 function getLine(location: GamePosition, direction: Direction) {
   const { x, y } = location;
