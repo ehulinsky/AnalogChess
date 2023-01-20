@@ -57,9 +57,20 @@ __King:__ Moves 0-1 squares orthogonally or 0-sqrt(2) squares diagonally. It is 
 
  
  
- ## Code
- To run the code you will need to install Python and the PyGame library, and then run the latest .py file because I can't be bothered to actually use version control.
- 
+## Code
  __Warning: This code is fucking awful.__
  
 Do not expect the code to be stable under any modifications, but you can try if you want I guess. Also there are barely any comments sorry. I am in Electrical Engineering and I like writing shitty code to piss off my Computer Science friends.
+
+### Installation
+Dependencies are managed by [poetry](https://python-poetry.org/docs/).
+ 
+To install dependencies:
+``` sh
+$ poetry install
+```
+
+To run the game:
+``` sh
+$ poetry run python analogchess.py
+```
