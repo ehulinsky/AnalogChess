@@ -111,9 +111,12 @@ export default function PieceWithOverlay({
         <Circle key={piece.id} radius={35} fill={piece.color} />
         <Text
           text={pieceSymbols[piece.color][piece.type]}
+          width={100}
+          height={100}
+          align="center"
           fontSize={60}
-          x={-18}
-          y={-28}
+          x={-50}
+          y={-30}
           fill={piece.color === "white" ? "black" : "white"}
         />
       </Group>
