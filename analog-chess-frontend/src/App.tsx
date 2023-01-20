@@ -4,7 +4,7 @@ import "./App.css";
 import { Stage, Layer, Text } from "react-konva";
 import Board from "./components/Board";
 import { Piece, ScreenPosition } from "./types";
-import { initialGameState } from "./data/consts";
+import { initialGameState } from "./data/initialState";
 import PieceWithOverlay from "./components/Piece";
 
 type AppState = {
@@ -48,7 +48,6 @@ const App = () => {
           {pieces.map((piece) => (
             <PieceWithOverlay
               piece={piece}
-              showOverlay
               pieces={pieces}
               onMove={movePiece}
             />

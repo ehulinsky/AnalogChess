@@ -1,5 +1,4 @@
-import { moves } from "../data/consts";
-import { Piece, Direction } from "../types";
+import { Direction, Piece } from "../types";
 import {
   toScreenPosition,
   getEdgePosition,
@@ -8,64 +7,73 @@ import {
 } from "../utils";
 import { StraightOverlay } from "./Overlay";
 
-// compute affordances for current moving piece
-export default function DirectionOverlays({
+export function DirectionOverlay({
   piece,
   pieces,
+  direction,
 }: {
   piece: Piece;
   pieces: Piece[];
+  direction: Direction;
 }) {
-  let directions = getMoves(piece);
+  let pastPosition = toScreenPosition({
+    x: piece.x,
+    y: piece.y,
+  });
 
-  let overlays = [];
-  for (let [i, direction] of directions.entries()) {
-    // let's compute the overlay from a static position instead.
-    let pastPosition = toScreenPosition({
-      x: piece.x,
-      y: piece.y,
-    });
+  let edgePosition = getEdgePosition(
+    piece,
+    toGamePosition(pastPosition),
+    direction,
+    pieces
+  );
 
-    let edgePosition = getEdgePosition(
-      piece,
-      toGamePosition(pastPosition),
-      direction,
-      pieces
+  let color = direction.selected ? "rgb(0, 255, 255)" : "rgb(240,240,0)";
+
+  if (!!edgePosition) {
+    return (
+      <StraightOverlay
+        start={pastPosition}
+        end={toScreenPosition(edgePosition)}
+        color={color}
+      />
     );
-
-    if (!!edgePosition) {
-      overlays.push(
-        <StraightOverlay
-          key={i}
-          start={pastPosition}
-          end={toScreenPosition(edgePosition)}
-          color="rgb(0,255,0)"
-        />
-      );
-    } else {
-      let g = toGamePosition(pastPosition);
-      direction = getRescaledDirection(g, direction);
-      overlays.push(
-        <StraightOverlay
-          key={i}
-          start={pastPosition}
-          end={toScreenPosition({
-            x: g.x + direction.dx,
-            y: g.y + direction.dy,
-          })}
-          color="rgb(0,255,0)"
-        />
-      );
-    }
+  } else {
+    let g = toGamePosition(pastPosition);
+    direction = getRescaledDirection(g, direction);
+    return (
+      <StraightOverlay
+        start={pastPosition}
+        end={toScreenPosition({
+          x: g.x + direction.dx,
+          y: g.y + direction.dy,
+        })}
+        color={color}
+      />
+    );
   }
-  return <>{overlays}</>;
 }
 
-// returns valid straight moves
-function getMoves(piece: Piece): Direction[] {
-  if (piece.type === "pawn" && piece.color === "black")
-    return moves["black_pawn"];
-  if (piece.type === "pawn" && piece.color === "white")
-    return moves["white_pawn"];
-  return moves[piece.type];
+// shows all the directions at once!
+export default function DirectionOverlays({
+  piece,
+  pieces,
+  directions,
+}: {
+  piece: Piece;
+  pieces: Piece[];
+  directions: Direction[];
+}) {
+  let overlays = [];
+  for (let [i, direction] of directions.entries()) {
+    overlays.push(
+      <DirectionOverlay
+        key={i}
+        piece={piece}
+        pieces={pieces}
+        direction={direction}
+      />
+    );
+  }
+  return <>{overlays}</>;
 }

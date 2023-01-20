@@ -11,6 +11,7 @@ export type Direction = {
   dx: number;
   dy: number;
   name?: string;
+  selected?: boolean;
 };
 
 export type GamePosition = {

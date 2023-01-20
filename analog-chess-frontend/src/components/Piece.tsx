@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Circle } from "react-konva";
 import { GamePosition, Piece } from "../types";
-import { roundX, toGamePosition } from "../utils";
+import { getPaths, roundX, selectPath, toGamePosition } from "../utils";
 import DirectionOverlays from "./DirectionOverlay";
 
 type PieceProps = {
@@ -22,6 +22,7 @@ export default function PieceWithOverlay({
   let [state, setState] = useState({
     s: { x: 20, y: 200 },
     isDragging: false,
+    paths: getPaths(piece).map((path) => ({ ...path, selected: false })),
   });
 
   let overlay;
@@ -32,12 +33,18 @@ export default function PieceWithOverlay({
     piece.type === "king" ||
     piece.type === "queen"
   ) {
-    overlay = <DirectionOverlays piece={piece} pieces={pieces} />;
+    overlay = (
+      <DirectionOverlays
+        piece={piece}
+        pieces={pieces}
+        directions={state.paths}
+      />
+    );
   }
 
   return (
     <>
-      {showOverlay && overlay}
+      {state.isDragging && overlay}
       <Circle
         key={piece.id}
         x={piece.x * 100}
@@ -56,17 +63,33 @@ export default function PieceWithOverlay({
           // if (e.target.x() > 0) {
           //   e.target.x(0);
           // }
+          const hoverPosition = toGamePosition({
+            x: roundX(e.target.x()),
+            y: roundX(e.target.y()),
+          });
+
+          let { path, validPosition } = selectPath(
+            { x: piece.x, y: piece.y },
+            getPaths(piece),
+            hoverPosition
+          );
+
+          e.target.x(validPosition.x * 100);
+          e.target.y(validPosition.y * 100);
+
           if (onDrag) {
-            onDrag(
-              piece,
-              toGamePosition({
-                x: roundX(e.target.x()),
-                y: roundX(e.target.y()),
-              })
-            );
+            onDrag(piece, hoverPosition);
           }
+
+          // update state path selected
           setState({
             ...state,
+            paths: state.paths.map((p) => {
+              if (p.name === path.name) {
+                return { ...p, selected: true };
+              }
+              return { ...p, selected: false };
+            }),
             s: {
               x: roundX(e.target.x()),
               y: roundX(e.target.y()),
