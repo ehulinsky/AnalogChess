@@ -110,13 +110,13 @@ export default function PieceWithOverlay({
       >
         <Circle key={piece.id} radius={35} fill={piece.color} />
         <Text
-          text={pieceSymbols[piece.color][piece.type]}
+          text={pieceSymbols["white"][piece.type]}
           width={100}
           height={100}
           align="center"
-          fontSize={60}
+          fontSize={80}
           x={-50}
-          y={-30}
+          y={-40}
           fill={piece.color === "white" ? "black" : "white"}
         />
       </Group>
