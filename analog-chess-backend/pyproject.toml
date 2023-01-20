@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "analog-chess-backend"
+version = "0.1.0"
+description = ""
+authors = ["Zen <ztang230@gmail.com>"]
+readme = "README.md"
+packages = [{include = "analog_chess_backend"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Flask-SocketIO = "^5.3.2"
+Flask = "^2.2.2"
+eventlet = "^0.33.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

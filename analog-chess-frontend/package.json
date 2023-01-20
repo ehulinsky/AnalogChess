@@ -12,7 +12,8 @@
     "konva": "^8.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-konva": "^18.2.3"
+    "react-konva": "^18.2.3",
+    "socket.io-client": "^4.5.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

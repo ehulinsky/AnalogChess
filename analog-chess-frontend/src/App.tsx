@@ -7,6 +7,8 @@ import { Piece, ScreenPosition } from "./types";
 import { initialGameState } from "./data/initialState";
 import PieceWithOverlay from "./components/Piece";
 
+import { boop, broadcastMove } from "./networking";
+
 type AppState = {
   s: ScreenPosition;
   piece: Piece | null;
@@ -30,6 +32,7 @@ const App = () => {
   const movePiece = (piece: Piece, location: { x: number; y: number }) => {
     console.log("moved", piece.type, "to", location.x, location.y);
     const { x, y } = location;
+    broadcastMove(piece, location);
     const newPieces = pieces.map((p) => {
       if (p.id === piece.id) {
         return { ...p, x, y };
@@ -41,6 +44,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <button onClick={boop}>Boop the server!</button>
       <Stage width={window.innerWidth * 0.8} height={window.innerHeight}>
         <Board height={window.innerHeight - 100} />
         <Layer>
