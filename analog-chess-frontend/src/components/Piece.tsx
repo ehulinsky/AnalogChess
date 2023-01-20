@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Circle } from "react-konva";
+import { Circle, Group, Text } from "react-konva";
+import pieceSymbols from "../data/pieceSymbols";
 import { GamePosition, Piece } from "../types";
 import { getPaths, roundX, selectPath, toGamePosition } from "../utils";
 import DirectionOverlays from "./DirectionOverlay";
@@ -45,12 +46,9 @@ export default function PieceWithOverlay({
   return (
     <>
       {state.isDragging && overlay}
-      <Circle
-        key={piece.id}
+      <Group
         x={piece.x * 100}
         y={piece.y * 100}
-        radius={35}
-        fill={piece.color}
         draggable
         onDragStart={() => {
           setState({
@@ -109,7 +107,16 @@ export default function PieceWithOverlay({
             })
           );
         }}
-      />
+      >
+        <Circle key={piece.id} radius={35} fill={piece.color} />
+        <Text
+          text={pieceSymbols[piece.color][piece.type]}
+          fontSize={60}
+          x={-18}
+          y={-28}
+          fill={piece.color === "white" ? "black" : "white"}
+        />
+      </Group>
     </>
   );
 }
