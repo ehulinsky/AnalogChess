@@ -42,6 +42,11 @@ class Piece:
     def can_promote(self):
         return False
 
+
+    #this is only used by the Knight so we can only calculate paths once instead of every frame
+    def calc_paths(self,pieces):
+        pass
+    
     def draw_paths(self, pieces):
         pass
 

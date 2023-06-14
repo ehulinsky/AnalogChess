@@ -63,7 +63,11 @@ pygame.display.set_caption("Analog Chess")
 draw_line_round_corners_polygon(
     see_through, (120, 120), (220, 220), RED_HIGHLIGHT, 0.7 * 640 / 8
 )
+grabbed_piece = None
 
+for piece in pieces:
+    piece.calc_paths(pieces)
+                
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -95,6 +99,8 @@ while not done:
                     new_pieces.append(piece)
 
             pieces = new_pieces
+            for piece in pieces:
+                piece.calc_paths(pieces)
 
     """
     if not pygame.mouse.get_focused():
@@ -104,11 +110,13 @@ while not done:
 
     draw_checkers()
 
+
+    prev_grabbed_piece = grabbed_piece
     grabbed_piece = None
     for piece in pieces:
         if piece.grabbed:
-            grabbed_piece = piece
-
+            grabbed_piece = piece   
+    
     if grabbed_piece:
         for piece in pieces:
             if piece.color != grabbed_piece.color:
