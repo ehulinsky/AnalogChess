@@ -1,6 +1,5 @@
  # Analog Chess
- 
- __Holy Hell!__
+
  
  This is a version of chess where the pieces are not constrained to an 8x8 grid, and instead can move to any position on the board.
  After clicking on a piece, the areas it may move to are highlighted in green, and areas the enemy can move to are highlighted in red. Drag the piece to move it, and to confirm a move, either click on the piece again or press enter. To cancel a move, press escape or click anywhere off the piece.
@@ -43,7 +42,7 @@ __King:__ Moves 0-1 squares orthogonally or 0-sqrt(2) squares diagonally. It is 
  
  
  ## Capturing
- Capturing in this game is a little bit goofy. Basically, if your piece overlaps the opponent's piece it is captured, and you cannot move past the first piece you overlap. 
+ Capturing in this game is more powerful than in normal chess. Basically, if your piece overlaps the opponent's piece it is captured, but you cannot move past the first piece you overlap. 
  
  __Example__
  
@@ -59,7 +58,3 @@ __King:__ Moves 0-1 squares orthogonally or 0-sqrt(2) squares diagonally. It is 
  
  ## Code
  To run the code you will need to install Python and the PyGame library, and then run the latest .py file because I can't be bothered to actually use version control.
- 
- __Warning: This code is fucking awful.__
- 
-Do not expect the code to be stable under any modifications, but you can try if you want I guess. Also there are barely any comments sorry. I am in Electrical Engineering and I like writing shitty code to piss off my Computer Science friends.
