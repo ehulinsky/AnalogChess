@@ -57,4 +57,4 @@ __King:__ Moves 0-1 squares orthogonally or 0-sqrt(2) squares diagonally. It is 
  
  
  ## Code
- To run the code you will need to install Python and the PyGame library, and then run the latest .py file because I can't be bothered to actually use version control.
+ To run the code you will need to install Python and the PyGame library, and then run the latest .py file.
